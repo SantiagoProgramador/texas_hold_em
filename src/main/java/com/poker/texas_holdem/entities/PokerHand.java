@@ -12,5 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class PokerHand {
+  private String handType;
   private List<Card> cards;
 }
