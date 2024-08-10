@@ -2,19 +2,19 @@ package com.poker.texas_holdem.dtos.request;
 
 import com.poker.texas_holdem.entities.PokerHand;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
-@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class PokerHandRequest {
-  @NotEmpty
+  @NotNull
   PokerHand hand1;
-  @NotEmpty
+  @NotNull
   PokerHand hand2;
 }
