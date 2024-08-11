@@ -13,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PokerHandRequest {
-  @NotNull
+  @NotNull(message = "Hand 1 can't be null")
   PokerHand hand1;
-  @NotNull
+  @NotNull(message = "Hand 2 can't be null")
   PokerHand hand2;
 }
