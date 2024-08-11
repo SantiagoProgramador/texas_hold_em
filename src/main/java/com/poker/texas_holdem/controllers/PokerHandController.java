@@ -34,7 +34,7 @@ public class PokerHandController {
       throw new BadRequestException("A hand must have 5 cards");
     }
     validateUniqueCards(pokerHandRequest.getHand1().getCards(), pokerHandRequest.getHand2().getCards());
-    return ResponseEntity.ok(pokerHandService.getWinner());
+    return ResponseEntity.ok(pokerHandService.getWinner(pokerHandRequest));
   }
 
   private void validateUniqueCards(List<Card> hand1, List<Card> hand2) {
