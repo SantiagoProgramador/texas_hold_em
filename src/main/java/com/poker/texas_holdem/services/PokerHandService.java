@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.poker.texas_holdem.dtos.response.PokerHandResponse;
 import com.poker.texas_holdem.entities.Card;
 import com.poker.texas_holdem.entities.PokerHand;
+import com.poker.texas_holdem.helpers.CardMapper;
 
 @Service
 public class PokerHandService {
@@ -121,11 +122,14 @@ public class PokerHandService {
 
   private List<String> compositionWinnerHand(List<Card> cards) {
     List<String> composition = new ArrayList<>();
-    String card;
-    for (int i = 0; i < cards.size(); i++) {
-      card = cards.get(i).getValue() + cards.get(i).getSuit();
+
+    for (Card c : cards) {
+      String valueSymbol = CardMapper.getSymbolFromValue(c.getValue());
+      String suitSymbol = CardMapper.getSuit(c.getSuit());
+      String card = valueSymbol + suitSymbol;
       composition.add(card);
     }
+
     return composition;
   }
 }
