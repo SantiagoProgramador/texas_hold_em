@@ -1,7 +1,5 @@
 package com.poker.texas_holdem.dtos.request;
 
-import com.poker.texas_holdem.entities.PokerHand;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PokerHandRequest {
   @NotNull(message = "Hand 1 can't be null")
-  PokerHand hand1;
+  String hand1;
   @NotNull(message = "Hand 2 can't be null")
-  PokerHand hand2;
+  String hand2;
 }

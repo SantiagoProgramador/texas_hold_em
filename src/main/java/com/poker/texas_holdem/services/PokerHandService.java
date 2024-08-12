@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
-import com.poker.texas_holdem.dtos.request.PokerHandRequest;
 import com.poker.texas_holdem.dtos.response.PokerHandResponse;
 import com.poker.texas_holdem.entities.Card;
 import com.poker.texas_holdem.entities.PokerHand;
@@ -17,17 +16,22 @@ import com.poker.texas_holdem.entities.PokerHand;
 @Service
 public class PokerHandService {
 
-  public PokerHandResponse getWinner(PokerHandRequest pokerHandRequest) {
-    String hand1Type = evaluateHand(pokerHandRequest.getHand1());
-    String hand2Type = evaluateHand(pokerHandRequest.getHand2());
+  public PokerHandResponse getWinner(List<Card> hand1Cards, List<Card> hand2Cards) {
+    PokerHand hand1 = new PokerHand();
+    PokerHand hand2 = new PokerHand();
+    hand1.setCards(hand1Cards);
+    hand2.setCards(hand2Cards);
+
+    String hand1Type = evaluateHand(hand1);
+    String hand2Type = evaluateHand(hand2);
 
     int hand1Rank = rankHand(hand1Type);
     int hand2Rank = rankHand(hand2Type);
 
     return PokerHandResponse.builder()
         .winnerHand((hand1Rank > hand2Rank) ? "hand1" : "hand2")
-        .compositionWinnerHand((hand1Rank > hand2Rank) ? compositionWinnerHand(pokerHandRequest.getHand1().getCards())
-            : compositionWinnerHand(pokerHandRequest.getHand2().getCards()))
+        .compositionWinnerHand((hand1Rank > hand2Rank) ? compositionWinnerHand(hand1.getCards())
+            : compositionWinnerHand(hand2.getCards()))
         .winnerHandType((hand1Rank > hand2Rank) ? hand1Type : hand2Type)
         .build();
   }
@@ -67,7 +71,7 @@ public class PokerHandService {
   }
 
   private boolean isRoyalFlush(List<Card> cards) {
-    return isStraightFlush(cards) && cards.stream().anyMatch(c -> "A".equals(c.getValue()));
+    return isStraightFlush(cards) && cards.stream().anyMatch(c -> c.getValue() == 14);
   }
 
   private boolean isStraightFlush(List<Card> cards) {
@@ -88,7 +92,7 @@ public class PokerHandService {
   }
 
   private boolean isStraight(List<Card> cards) {
-    List<String> values = new ArrayList<>();
+    List<Integer> values = new ArrayList<>();
     for (Card card : cards) {
       values.add(card.getValue());
     }
@@ -103,12 +107,12 @@ public class PokerHandService {
   }
 
   private boolean hasSameRank(List<Card> cards, int count) {
-    Map<String, Integer> rankCount = getValueCount(cards);
+    Map<Integer, Integer> rankCount = getValueCount(cards);
     return rankCount.values().stream().anyMatch(c -> c == count);
   }
 
-  private Map<String, Integer> getValueCount(List<Card> cards) {
-    Map<String, Integer> valueCount = new HashMap<>();
+  private Map<Integer, Integer> getValueCount(List<Card> cards) {
+    Map<Integer, Integer> valueCount = new HashMap<>();
     for (Card card : cards) {
       valueCount.put(card.getValue(), valueCount.getOrDefault(card.getValue(), 0) + 1);
     }
