@@ -31,8 +31,8 @@ public class PokerHandService {
 
     return PokerHandResponse.builder()
         .winnerHand((hand1Rank > hand2Rank) ? "hand1" : "hand2")
-        .compositionWinnerHand((hand1Rank > hand2Rank) ? compositionWinnerHand(hand1.getCards())
-            : compositionWinnerHand(hand2.getCards()))
+        .compositionWinnerHand((hand1Rank > hand2Rank) ? compositionWinnerHand(hand1.getCards(), hand1Type)
+            : compositionWinnerHand(hand2.getCards(), hand2Type))
         .winnerHandType((hand1Rank > hand2Rank) ? hand1Type : hand2Type)
         .build();
   }
@@ -120,9 +120,35 @@ public class PokerHandService {
     return valueCount;
   }
 
-  private List<String> compositionWinnerHand(List<Card> cards) {
+  private List<String> compositionWinnerHand(List<Card> cards, String handType) {
     List<String> composition = new ArrayList<>();
 
+    switch (handType) {
+      case "Royal Flush":
+        String royalFlushSuit = CardMapper.getSuitName(cards.get(0).getSuit());
+        composition.add(royalFlushSuit);
+        break;
+      case "Straight Flush":
+        String straightFlushSuit = CardMapper.getSuitName(cards.get(0).getSuit());
+        composition.add(straightFlushSuit);
+        break;
+      case "Flush":
+        String flushSuit = CardMapper.getSuitName(cards.get(0).getSuit());
+        composition.add(flushSuit);
+        break;
+      case "Four of a Kind":
+        int fourOfAKindValue = cards.get(0).getValue();
+        String fourOfAKindSymbol = CardMapper.getSymbolFromValue(fourOfAKindValue);
+        composition.add(fourOfAKindSymbol);
+        break;
+      case "Full House":
+        int fullHouseValue = cards.get(0).getValue();
+        String fullHouseSymbol = CardMapper.getSymbolFromValue(fullHouseValue);
+        composition.add(fullHouseSymbol);
+        break;
+      default:
+        break;
+    }
     for (Card c : cards) {
       String valueSymbol = CardMapper.getSymbolFromValue(c.getValue());
       String suitSymbol = CardMapper.getSuit(c.getSuit());

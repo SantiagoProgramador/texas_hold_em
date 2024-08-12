@@ -41,6 +41,12 @@ public class CardMapper {
       Map.entry("D", "D"),
       Map.entry("C", "C"));
 
+  private static final Map<String, String> SYMBOL_TO_SUIT = Map.ofEntries(
+      Map.entry("S", "Spades"),
+      Map.entry("H", "Hearts"),
+      Map.entry("D", "Diamonds"),
+      Map.entry("C", "Clubs"));
+
   private CardMapper() {
     throw new AssertionError("Instantiating utility class.");
   }
@@ -67,5 +73,13 @@ public class CardMapper {
       throw new BadRequestException("Invalid card number: " + number);
     }
     return symbol;
+  }
+
+  public static String getSuitName(String symbol) {
+    String suit = SYMBOL_TO_SUIT.get(symbol);
+    if (suit == null) {
+      throw new BadRequestException("Invalid card suit: " + symbol);
+    }
+    return suit;
   }
 }
