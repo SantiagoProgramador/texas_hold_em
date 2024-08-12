@@ -1,15 +1,16 @@
 package com.poker.texas_holdem.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor
-@Builder
 public class Card {
-  private String value;
+  private Integer value;
   private String suit;
+
 }
