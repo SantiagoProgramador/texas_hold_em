@@ -56,7 +56,7 @@ project/
 
 ---
 ## Link to deployed code
-
+https://texas-hold-em.onrender.com/api/v1/swagger-ui/index.html
 ---
 ## Architecture diagram
 ```plaintext
